@@ -29,6 +29,21 @@ struct WeatherManager {
         performRequest(with: urlString)
     }
     
+    func formatCityName(cityNameWithSpaces: String) -> String{
+        let fullArray = cityNameWithSpaces.components(separatedBy: " ")
+        var formattedCity = String()
+        for item in fullArray {
+            if item != "" {
+                if item == fullArray[fullArray.count - 1]{
+                    formattedCity += item
+                } else {
+                    formattedCity += "\(item)%20"
+                }
+            }
+        }
+        return formattedCity
+    }
+    
     func performRequest(with urlString: String){
         //1. Create a URL
         if let url = URL(string: urlString){

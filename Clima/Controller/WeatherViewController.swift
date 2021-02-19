@@ -47,7 +47,7 @@ extension WeatherViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.text != "" {
+        if textField.text != " " {
             return true
         } else {
             textField.placeholder = "Type something"
@@ -58,8 +58,15 @@ extension WeatherViewController: UITextFieldDelegate {
     //Delegate method that's triggered when .endEditing equals true
     func textFieldDidEndEditing(_ textField: UITextField) {
         //Use the searchTextFiled.text to get the weather for that city
-        if let city = textField.text {
-            weatherManager.fetchWeather(cityName: city)
+        if let cityName = textField.text {
+            let whitespace = NSCharacterSet.whitespaces
+            if (cityName.rangeOfCharacter(from: whitespace) != nil) {
+                let formattedCityName = weatherManager.formatCityName(cityNameWithSpaces: cityName)
+                weatherManager.fetchWeather(cityName: formattedCityName)
+            } else {
+                weatherManager.fetchWeather(cityName: cityName)
+            }
+            
         }
         
         textField.text = ""
